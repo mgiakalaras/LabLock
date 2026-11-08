@@ -1,12 +1,12 @@
 # GitHub Action. ANEBASMA-STO-GITHUB.bat copies this file to .github/workflows/build.yml in the repository.
 name: Build LabLock
 
-# Every push to main builds LabLock.exe on Windows (a quick check that the code compiles).
-# Pushing a tag such as v0.4.2 also makes a Release with LabLock.exe attached, ready to download.
+# Every push to main builds LabLock.exe on Windows (a check that the code compiles).
+# When the version in LabLock/Properties/AssemblyInfo.cs is new (no tag vX.Y.Z yet),
+# it also makes the Release vX.Y.Z with LabLock.exe attached, ready to download.
 on:
   push:
     branches: [main]
-    tags: ['v*']
   workflow_dispatch:
 
 permissions:
@@ -27,10 +27,25 @@ jobs:
           name: LabLock
           path: LabLock.exe
 
+      - name: Version
+        id: version
+        shell: pwsh
+        run: |
+          $m = Select-String -Path LabLock/Properties/AssemblyInfo.cs -Pattern 'AssemblyVersion\("(\d+)\.(\d+)\.(\d+)' | Select-Object -First 1
+          $v = '{0}.{1}.{2}' -f $m.Matches[0].Groups[1].Value, $m.Matches[0].Groups[2].Value, $m.Matches[0].Groups[3].Value
+          git ls-remote --exit-code --tags origin "refs/tags/v$v" | Out-Null
+          $new = if ($LASTEXITCODE -eq 0) { 'false' } else { 'true' }
+          "version=$v" >> $env:GITHUB_OUTPUT
+          "new=$new" >> $env:GITHUB_OUTPUT
+          Write-Host "LabLock $v (new release: $new)"
+          exit 0
+
       - name: Release
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: steps.version.outputs.new == 'true'
         uses: softprops/action-gh-release@v2
         with:
-          name: LabLock ${{ github.ref_name }}
+          tag_name: v${{ steps.version.outputs.version }}
+          target_commitish: ${{ github.sha }}
+          name: LabLock v${{ steps.version.outputs.version }}
           files: LabLock.exe
           generate_release_notes: true

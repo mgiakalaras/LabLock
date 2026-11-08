@@ -5,8 +5,8 @@ title LabLock - ανέβασμα στο GitHub
 
 rem Ανεβάζει το LabLock στο https://github.com/mgiakalaras/LabLock με ένα διπλό κλικ.
 rem Την πρώτη φορά φτιάχνεις το αποθετήριο στο GitHub (ανοίγει μόνο του) και συνδέεσαι από τον browser.
-rem Σε κάθε νέα έκδοση (AssemblyVersion στο LabLock\Properties\AssemblyInfo.cs) βάζει και tag vX.Y.Z,
-rem και το GitHub φτιάχνει μόνο του Release με έτοιμο το LabLock.exe.
+rem Σε κάθε νέα έκδοση (AssemblyVersion στο LabLock\Properties\AssemblyInfo.cs) το GitHub
+rem φτιάχνει μόνο του Release με έτοιμο το LabLock.exe.
 
 set "OWNER=mgiakalaras"
 set "NAME=LabLock"
@@ -66,12 +66,9 @@ git branch -M main
 git push --quiet -u origin main
 if errorlevel 1 goto failedpop
 
-rem ---- νέα έκδοση: tag, ώστε το GitHub να φτιάξει Release με το LabLock.exe
+rem ---- νέα έκδοση: το GitHub Action φτιάχνει μόνο του το Release vX.Y.Z με το LabLock.exe
 git ls-remote --tags origin "refs/tags/v%VER%" | findstr /c:"v%VER%" >nul
 if not errorlevel 1 goto oldversion
-git tag -a "v%VER%" -m "LabLock %VER%"
-git push --quiet origin "v%VER%"
-if errorlevel 1 goto failedpop
 echo.
 echo  Νέα έκδοση v%VER%. Σε 2-3 λεπτά το LabLock.exe θα είναι στη σελίδα Releases:
 echo  https://github.com/%OWNER%/%NAME%/releases

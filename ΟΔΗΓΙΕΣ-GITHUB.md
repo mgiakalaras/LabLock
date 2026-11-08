@@ -17,9 +17,9 @@
 
 ## Νέα έκδοση
 
-1. Άλλαξε την έκδοση στο `LabLock\Properties\AssemblyInfo.cs` (και στο `LabLock\app.manifest`), π.χ. `0.4.3.0`.
+1. Άλλαξε την έκδοση στο `LabLock\Properties\AssemblyInfo.cs` (και στο `LabLock\app.manifest`), π.χ. `0.5.1.0`.
 2. Διπλό κλικ στο `ANEBASMA-STO-GITHUB.bat`.
-3. Βάζει μόνο του το tag `v0.4.3`. Σε 2-3 λεπτά το GitHub έχει χτίσει το `LabLock.exe`
+3. Σε 2-3 λεπτά το GitHub έχει χτίσει το `LabLock.exe` (έκδοση `v0.5.1`)
    και το έχει βάλει στη σελίδα **Releases**, έτοιμο για λήψη από όποιον συνάδελφο το θέλει.
 
 Αν ανεβάσεις αλλαγές χωρίς να αλλάξεις έκδοση, ανεβαίνουν μόνο τα αρχεία (χωρίς νέο Release).
