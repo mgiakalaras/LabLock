@@ -1,0 +1,27 @@
+# Build output
+bin/
+obj/
+.vs/
+*.user
+*.suo
+/LabLock.exe
+/build-log.txt
+
+# What LabLock writes next to LabLock.exe while it is used: settings and the record of the school's PCs.
+# They belong to one school and stay out of the public repository.
+/LabLock.ini
+/LabLock-log.txt
+/LabLock-blocklist.txt
+/LabLock-computers.csv
+/LabLock-veyon.csv
+/LabLock-nethawk-machines.json
+/LabLock-school.png
+/Push-LabLock.log
+
+# Packages made for sending
+*.zip
+
+# OS files
+Thumbs.db
+desktop.ini
+.DS_Store
